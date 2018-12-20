@@ -1,6 +1,7 @@
 #-*-coding:utf-8-*-
 
-#KIMJUHYANG
+# KIMJUHYANG
+# 객체 모양 판별
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
