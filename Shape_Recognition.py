@@ -68,7 +68,31 @@ for i in range (0,len(contours)):
     #꼭짓점의 좌표를 approx에 저장하기.
     approx = cv2.approxPolyDP(cnt, epsilon, True)
     cv2.drawContours(imgs, [approx], 0, (0,0,255),3)
+    
+    #꼭짓점의 개수로 판단하기
+    if len(approx) > 4 :
+        circle += 1
+        (x,y),radius = cv2.minEnclosingCircle(approx)
+        center = (int(x),int(y))
+        radius = int(radius)
+        cv2.circle(imgs,center,radius,(255,0,255),3) #테두리 원으로 그려주기
+        print('%d번째 원의 좌표 : (%d, %d)'%(circle,cx,cy))
+        
+    elif len(approx) == 3 : #삼각형일때
+        triangle += 1
+        cv2.drawContours(imgs, [approx], 0, (0,0,255),3) #테두리 그려주기
+        print('%d번째 삼각형의 좌표 : (%d, %d)'%(triangle,cx,cy))
 
+    elif len(approx) == 4 : #사각형일때
+        ractangle += 1
+        cv2.drawContours(imgs, [approx], 0, (0,0,255),3) #테두리 그려주기
+        print('%d번째 사각형의 좌표 : (%d, %d)'%(ractangle,cx,cy))
+        
+    else  #꼭짓점이 3 이하일때 - 즉 직선 오브젝트일때
+        etc += 1
+        cv2.drawContours(imgs, [approx], 0, (0,0,255),3) #테두리 그려주기
+        print('%d번째 기타 오브젝트의 좌표 : (%d, %d)'%(etc,cx,cy))
+        
     
 
 #오브젝트를 파악하면 총 개수 증가시킴
